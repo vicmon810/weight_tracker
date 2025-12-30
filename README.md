@@ -20,6 +20,7 @@ All data is stored locally and visualized throught an interactive dashboard.
 ## API Endpoints 
 
 |Method| Endpoint| Function| 
+|-------|---------|--------|
 |POST| `/weigh_in` | Record weight entry| 
 |GET | `/weigh_in` | Fetch historical weight data| 
 |POST| `/checkin` | Daily combined log| 
@@ -49,5 +50,34 @@ All data is stored locally and visualized throught an interactive dashboard.
 │ sleep_hours REAL       │
 │ weight REAL            │
 └────────────────────────┘
+
+```
+
+## Architecture Diagram 
+
+```
+[Mobile / Browser]
+        |
+        v
+   FastAPI Server (Raspberry Pi)
+        |
+        v
+     SQLite DB
+        |
+        v
+ Streamlit Dashboard Visualization
+
+```
+
+### Setup & run
+```
+cd health-tracker
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+uvicorn health_api:app --host 0.0.0.0 --port 8000
+
+streamlit run dashboard.py --server.address 0.0.0.0 --server.port 8501
 
 ```
