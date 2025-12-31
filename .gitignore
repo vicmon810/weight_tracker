@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+
+# Database
+*.db
+health.db
+
+# Logs
+*.log
+nohup.out
+
+# OS files
+.DS_Store
