@@ -29,7 +29,10 @@ def init_db():
         exercise_minutes INTEGER,
         exercise_note TEXT,
         sleep_hours REAL,
-        weight REAL
+        weight REAL,
+        raw_text TEXT,
+        stress_score REAL, 
+        sentiment TEXT
     )
     """)
 
@@ -52,7 +55,9 @@ class DailyCheckin(BaseModel):
     exercise_note: str | None = None
     sleep_hours: float | None = None
     weight: float | None = None
-
+    raw_text: str | None = None
+    stress_score: float | None = None 
+    sentiment: str | None = None
 
 @app.post("/weigh_in")
 async def add_weight(entry: WeightEntry):
@@ -86,8 +91,9 @@ async def add_checkin(entry: DailyCheckin):
         """
         INSERT INTO daily_checkin
         (timestamp, mood, diet_note, exercise_minutes,
-        exercise_note, sleep_hours, weight)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        exercise_note, sleep_hours, weight, raw_text, 
+        stress_score, sentiment)
+        VALUES (?,?, ?, ?, ?, ?, ?,?,?,?)
         """,
         (
             ts,
@@ -97,6 +103,9 @@ async def add_checkin(entry: DailyCheckin):
             entry.exercise_note,
             entry.sleep_hours,
             entry.weight,
+            entry.raw_text, 
+            entry.stress_score,
+            entry.sentiment,
         ),
     )
     conn.commit()

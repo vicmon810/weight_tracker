@@ -1,0 +1,139 @@
+nohup: ignoring input
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  URL: http://0.0.0.0:8555
+
+2025-12-30 21:06:50.266 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "/usr/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/urllib3/connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "/usr/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 671, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/dashboard.py", line 87, in <module>
+    resp = requests.post(url, json=data)
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/requests/adapters.py", line 659, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-12-30 21:07:15.325 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 671, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/dashboard.py", line 111, in <module>
+    tep = tep[df_c["weight"]].notna()
+          ~~~^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6261, in _raise_if_missing
+    raise KeyError(f"None of [{key}] are in the [{axis_name}]")
+KeyError: "None of [Index([105.5], dtype='float64')] are in the [columns]"
+2025-12-30 21:07:40.475 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 671, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/dashboard.py", line 111, in <module>
+    tep = tep[df_c["weight"]].notna()
+          ~~~^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kris/healthass/venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 6261, in _raise_if_missing
+    raise KeyError(f"None of [{key}] are in the [{axis_name}]")
+KeyError: "None of [Index([105.5], dtype='float64')] are in the [columns]"
+/home/kris/healthass/dashboard.py:141: FutureWarning: last is deprecated and will be removed in a future version. Please create a mask and filter using `.loc` instead
+  st.dataframe(
