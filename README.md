@@ -1,7 +1,7 @@
 # HealthPI Embedded Personal Assistant 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#中文说明)
+[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#中文)
 [![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](#English)
 ![type](https://img.shields.io/badge/Type-Embedded%20Assistant-infomational)
 ![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
@@ -26,6 +26,9 @@ It is a **SYSTEM CAPABILITY** that helps you understand *your own data*
         <summary><strong>English</strong></summary>
 
 ---
+
+## English
+
 ## What is HealthPI?
 
 **HealthPI** is a private-first, fully self-hosted **personal health and statics system** with a **deeply embedded AI assistant**
@@ -71,15 +74,16 @@ It is a **System-level capability** that explains *your own data*
 
 </details>
 
-<details>
-        <summary>
+<details><summary>
                 <strong>
                         中文说明
                 </strong>
         </summary>
 
 ---
-        
+
+##中文    
+
 ## 什么是 HealthPI
 **HealthPI** 是一个以隐私为核心的，完全自处理的**个人健康与统计系统**并且深度嵌入与AI助手用于：
 
