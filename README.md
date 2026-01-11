@@ -1,83 +1,32 @@
-# Personal Health & Weight tracking Syste
+# HealthPI Embedded Personal Assistant 
 
-## Overview 
-This project is a self-host personal health tracking system build on Raspberry pi 4. 
+--- 
+<details open>
+<summary>
+        <strong>
+                中文
+        </strong>
+</summary>
 
-It allows easy monitoring of weight changes, execrecise habits, sleep patterns and daily wellness notes. 
+## 项目目标
+搭建一个 **深入嵌入的个人智能助手** 用于解释身体数据，生产记录观察，并在Ipone上作为系统能力存在。
 
-All data is stored locally and visualized throught an interactive dashboard. 
+### 核心
+- 智能助手不只是聊天页面，而是系统解析能力
+- 系统负责计算，LLM只负责解析
+- 不作为任何的医疗诊断
 
-## Features 
+</details>
 
-|Component | Technology | Description| 
-|----------|------------|------------|
-|Backend API| FastAPI + SQLite| Collect and mange health data|
-|Data visualization| streamlit| Weight & behavior dashboard| 
-|Device| Raspbreey Pi 4|low-cost, self-host server |
-|Storage| SQLite| Lightweight database| 
+<details>
+        <summary>
+                English
+        </summary>
+## Project Goals
+Build an **Embedded Personal Assistent** deeply inegreated  in Health, cappable of explaining personal health data, generating insights, and acting as a system-level capability on Iphone. 
 
-
-## API Endpoints 
-
-|Method| Endpoint| Function| 
-|-------|---------|--------|
-|POST| `/weigh_in` | Record weight entry| 
-|GET | `/weigh_in` | Fetch historical weight data| 
-|POST| `/checkin` | Daily combined log| 
-|GET | `/checkin` | Fetch lastest check-in behavior| 
-
-## Entity Relationship Diagram (ERD)
-
-```
-┌────────────────────────┐
-│       weigh_in         │
-├────────────────────────┤
-│ id (PK)                │
-│ weight REAL            │
-│ note TEXT              │
-│ timestamp TEXT         │
-└────────────────────────┘
-
-┌────────────────────────┐
-│     daily_checkin      │
-├────────────────────────┤
-│ id (PK)                │
-│ timestamp TEXT         │
-│ mood TEXT              │
-│ diet_note TEXT         │
-│ exercise_minutes INT   │
-│ exercise_note TEXT     │
-│ sleep_hours REAL       │
-│ weight REAL            │
-└────────────────────────┘
-
-```
-
-## Architecture Diagram 
-
-```
-[Mobile / Browser]
-        |
-        v
-   FastAPI Server (Raspberry Pi)
-        |
-        v
-     SQLite DB
-        |
-        v
- Streamlit Dashboard Visualization
-
-```
-
-### Setup & run
-```
-cd health-tracker
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-uvicorn health_api:app --host 0.0.0.0 --port 8000
-
-streamlit run dashboard.py --server.address 0.0.0.0 --server.port 8501
-
-```
+### Core Principles
+- Assistant is a capability, not a page
+- System computes, LLM explains
+- No medical Diagnoise
+</details>
