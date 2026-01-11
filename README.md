@@ -61,7 +61,9 @@ It is a **System-level capability** that explains *your own data*
 - No Medical diagnosis
 - No prescriptions
 - No autonomous device control
+  
 ---
+
 ## Key Feature 
 
 - Metric explanations(sleep, steps, weight, training)
@@ -81,9 +83,6 @@ It is a **System-level capability** that explains *your own data*
         </summary>
 
 ---
-
-
-
 ## 什么是 HealthPI
 **HealthPI** 是一个以隐私为核心的，完全自处理的**个人健康与统计系统**并且深度嵌入与AI助手用于：
 
@@ -100,7 +99,7 @@ It is a **System-level capability** that explains *your own data*
 --- 
 
 ## 设计原则
----
+
 ### 1. Assistant 是系统能力并非页面
 
 - 不需要助手页面
@@ -122,7 +121,9 @@ It is a **System-level capability** that explains *your own data*
 - 本项目不具备任何专业医生处方意见
 - 本项目不可替代医疗诊断
 - 如有不适请立即就医
+
 ---
+
 ## 核心能力
 
 - 指标分析（睡眠，步数，体重，训练量等）
@@ -134,7 +135,7 @@ It is a **System-level capability** that explains *your own data*
 </details>
 
 
----
+
 
 ## Model & Runtime 
 
