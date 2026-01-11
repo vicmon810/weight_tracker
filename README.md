@@ -1,8 +1,8 @@
 # HealthPI Embedded Personal Assistant 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](中文说明)
-[![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](English)
+[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#中文说明)
+[![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](#English)
 ![type](https://img.shields.io/badge/Type-Embedded%20Assistant-infomational)
 ![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
 ![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)
