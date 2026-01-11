@@ -1,7 +1,7 @@
 # HealthPI Embedded Personal Assistant 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](中文说明）
+[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](中文说明)
 [![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](English)
 ![type](https://img.shields.io/badge/Type-Embedded%20Assistant-infomational)
 ![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
@@ -21,12 +21,63 @@ This assistant is **NOT A CHATBOX**
 It is a **SYSTEM CAPABILITY** that helps you understand *your own data*
 ---
 
+
+<details open>
+        <summary><strong>English</strong></summary>
+
+---
+## What is HealthPI?
+
+**HealthPI** is a private-first, fully self-hosted **personal health and statics system** with a **deeply embedded AI assistant**
+
+The assistant is **NOT A CHATBOT** 
+
+It is a **System-level capability** that explains *your own data* 
+
+--- 
+
+## Core principle 
+
+### 1 Assistant is a capability, not a page 
+
+- No "Assistant page"
+- Assistant lives inside:
+  - charts
+  - Metrics
+  - Insight cards
+  - Widgets/Siri
+
+### 2 System computes, LLM explains 
+
+- All metrics are computed deterministically
+- LLM never touches raw database
+- LLM consumes structured evidence only
+
+### 3 Explictit Safety boundaries 
+
+- No Medical diagnosis
+- No prescriptions
+- No autonomous device control
+---
+## Key Feature 
+
+- Metric explanations(sleep, steps, weight, training)
+- Trend analysis
+- Automated insights
+- Weekly/Monthly reports
+- Fully local, privacy-first
+
+---
+
+</details>
+
 <details>
         <summary>
                 <strong>
                         中文说明
                 </strong>
         </summary>
+
 ---
         
 ## 什么是 HealthPI
@@ -78,54 +129,6 @@ It is a **SYSTEM CAPABILITY** that helps you understand *your own data*
 
 </details>
 
-<details open>
-        <summary><strong>English</strong></summary>
-
----
-## What is HealthPI?
-
-**HealthPI** is a private-first, fully self-hosted **personal health and statics system** with a **deeply embedded AI assistant**
-
-The assistant is **NOT A CHATBOT** 
-
-It is a **System-level capability** that explains *your own data* 
-
---- 
-
-## Core principle 
-
-### 1 Assistant is a capability, not a page 
-
-- No "Assistant page"
-- Assistant lives inside:
-  - charts
-  - Metrics
-  - Insight cards
-  - Widgets/Siri
-
-### 2 System computes, LLM explains 
-
-- All metrics are computed deterministically
-- LLM never touches raw database
-- LLM consumes structured evidence only
-
-### 3 Explictit Safety boundaries 
-
-- No Medical diagnosis
-- No prescriptions
-- No autonomous device control
----
-## Key Feature 
-
-- Metric explanations(sleep, steps, weight, training)
-- Trend analysis
-- Automated insights
-- Weekly/Monthly reports
-- Fully local, privacy-first
-
----
-
-</details>
 
 ---
 
