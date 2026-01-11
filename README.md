@@ -82,7 +82,7 @@ It is a **System-level capability** that explains *your own data*
 
 ---
 
-##中文    
+## 中文    
 
 ## 什么是 HealthPI
 **HealthPI** 是一个以隐私为核心的，完全自处理的**个人健康与统计系统**并且深度嵌入与AI助手用于：
