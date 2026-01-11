@@ -1,11 +1,11 @@
 # HealthPI Embedded Personal Assistant 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#中文)
-[![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](#English)
+[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#什么是-HealthPI)
+[![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](#What-is-HealthPI?)
 ![type](https://img.shields.io/badge/Type-Embedded%20Assistant-infomational)
-![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
-![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)
+[![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)](Model-&0-untime)
+[![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)](Model-&0-untime)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI-teal)
 ![DB](https://img.shields.io/badge/DB-SQLite-blue)
 ![GPU](https://img.shields.io/badge/GPU-NVIDIA%20GTX%201060-76B900)
@@ -27,7 +27,7 @@ It is a **SYSTEM CAPABILITY** that helps you understand *your own data*
 
 ---
 
-## English
+
 
 ## What is HealthPI?
 
@@ -74,7 +74,7 @@ It is a **System-level capability** that explains *your own data*
 
 </details>
 
-<details><summary>
+<details open><summary>
                 <strong>
                         中文说明
                 </strong>
@@ -82,7 +82,7 @@ It is a **System-level capability** that explains *your own data*
 
 ---
 
-## 中文    
+
 
 ## 什么是 HealthPI
 **HealthPI** 是一个以隐私为核心的，完全自处理的**个人健康与统计系统**并且深度嵌入与AI助手用于：
