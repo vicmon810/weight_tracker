@@ -1,7 +1,24 @@
 # HealthPI Embedded Personal Assistant 
 
 --- 
+
+
 <details open>
+        <summary>
+                English
+        </summary>
+        
+## Project Goals
+        
+Build an **Embedded Personal Assistent** deeply inegreated  in Health, cappable of explaining personal health data, generating insights, and acting as a system-level capability on Iphone. 
+
+### Core Principles
+- Assistant is a capability, not a page
+- System computes, LLM explains
+- No medical Diagnoise
+</details>
+
+<details >
 <summary>
         <strong>
                 中文
@@ -18,15 +35,3 @@
 
 </details>
 
-<details>
-        <summary>
-                English
-        </summary>
-## Project Goals
-Build an **Embedded Personal Assistent** deeply inegreated  in Health, cappable of explaining personal health data, generating insights, and acting as a system-level capability on Iphone. 
-
-### Core Principles
-- Assistant is a capability, not a page
-- System computes, LLM explains
-- No medical Diagnoise
-</details>
