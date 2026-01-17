@@ -1,179 +1,89 @@
-# HealthPI Embedded Personal Assistant 
+# HealthPI Embedded Personal Assistant
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOC 中文](https://img.shields.io/badge/Docs-中文-red.svg)](#什么是-HealthPI)
-[![DOC ENGLISH](https://img.shields.io/badge/Docs-English-blue.svg)](#What-is-HealthPI?)
-![type](https://img.shields.io/badge/Type-Embedded%20Assistant-infomational)
-[![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)](Model-&0-untime)
-[![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)](Model-&0-untime)
+[![Docs: 中文](https://img.shields.io/badge/Docs-中文-red.svg)](./README.zh-CN.md)
+![Type](https://img.shields.io/badge/Type-Embedded%20Assistant-informational)
+![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
+![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI-teal)
 ![DB](https://img.shields.io/badge/DB-SQLite-blue)
 ![GPU](https://img.shields.io/badge/GPU-NVIDIA%20GTX%201060-76B900)
 
 ---
 
-## Overview 
+## Overview
 
-HealthPi is a **privacy-first ,self-hosted personal health system**  with a **deeply embedded AI assistant**
+**HealthPI** is a privacy-first, self-hosted **personal health tracking system** with a **deeply embedded AI assistant**.
 
-This assistant is **NOT A CHATBOX** 
-
-It is a **SYSTEM CAPABILITY** that helps you understand *your own data*
----
-
-
-<details open>
-        <summary><strong>English</strong></summary>
+This assistant is **NOT A CHATBOT**. It is a **SYSTEM CAPABILITY** that helps you understand *your own data*.
 
 ---
 
+## Core Principles
 
+### 1. Assistant is a Capability, Not a Page
+* No dedicated "Assistant Page".
+* The assistant lives inside:
+    * Charts
+    * Metrics
+    * Insight Cards
+    * Widgets / Siri
 
-## What is HealthPI?
+### 2. System Computes, LLM Explains
+* All metrics are computed deterministically by the system (Python/Pandas).
+* The LLM **never** touches the raw database directly.
+* The LLM consumes only **structured evidence** provided by the backend.
 
-**HealthPI** is a private-first, fully self-hosted **personal health and statics system** with a **deeply embedded AI assistant**
-
-The assistant is **NOT A CHATBOT** 
-
-It is a **System-level capability** that explains *your own data* 
-
---- 
-
-## Core principle 
-
-### 1 Assistant is a capability, not a page 
-
-- No "Assistant page"
-- Assistant lives inside:
-  - charts
-  - Metrics
-  - Insight cards
-  - Widgets/Siri
-
-### 2 System computes, LLM explains 
-
-- All metrics are computed deterministically
-- LLM never touches raw database
-- LLM consumes structured evidence only
-
-### 3 Explictit Safety boundaries 
-
-- No Medical diagnosis
-- No prescriptions
-- No autonomous device control
-  
----
-
-## Key Feature 
-
-- Metric explanations(sleep, steps, weight, training)
-- Trend analysis
-- Automated insights
-- Weekly/Monthly reports
-- Fully local, privacy-first
+### 3. Explicit Safety Boundaries
+* **No Medical Diagnosis.**
+* No prescriptions.
+* No autonomous device control.
 
 ---
 
-</details>
+## Key Features
 
-<details open><summary>
-                <strong>
-                        中文说明
-                </strong>
-        </summary>
-
----
-## 什么是 HealthPI
-**HealthPI** 是一个以隐私为核心的，完全自处理的**个人健康与统计系统**并且深度嵌入与AI助手用于：
-
-        - 解释您的健康与个人统计数据
-        - 自动生成趋势报告，洞察，周报
-
-### HealthPI 的核心理念
-
-- HealthPi 不是一个聊天机器人
-- 是系统的一部分
-- 了解并且知道您当前的数据
-- 自动解释，总结，提醒
-
---- 
-
-## 设计原则
-
-### 1. Assistant 是系统能力并非页面
-
-- 不需要助手页面
-- 助手存在于：
-  - 图表旁
-  - 指标页面
-  - Widget/ Siri
-
-### 2. 系统负责计算，LLM只用于解释数据
-
-- 全部系统统计与指标由系统计算
-- LLM **永远不直接访问数据库**
-- LLM 只负责**结构化证据**
-
-### 3. 安全声明
-
-- 本项目不代表任何专业的医生意见
-- 本项目不可作用于现实设备
-- 本项目不具备任何专业医生处方意见
-- 本项目不可替代医疗诊断
-- 如有不适请立即就医
-
----
-
-## 核心能力
-
-- 指标分析（睡眠，步数，体重，训练量等）
-- 趋势分析（7天/14天/30天)
-- 周报/月报生成
-- 本地隐私优先
----  
-
-</details>
-
-
-
-
-## Model & Runtime 
-
-- **Model**: Qwen3 0.6B (INstruct)
-- **Runtime**: Ollama
-- **Fine-tuning**: LoRA/ QLoRA
-- **GPU**: NVIDIA GTX 1060
+* **Metric Explanations:** Contextual insights for sleep, steps, weight, and training load.
+* **Trend Analysis:** Automated analysis of 7-day, 14-day, and 30-day trends.
+* **Automated Reporting:** Weekly and Monthly summaries generated automatically.
+* **Privacy First:** Fully local execution; no data leaves your network.
 
 ---
 
 ## Technology Stack
 
-| layer | Stack| 
-|------|-------|
-|IOS | SwiftUI| 
-|Backend| FastAPI|
-|Database| SQLite| 
-|LLM Runtime| Ollama|
-|Model| Qwen3 0.6B|
-|Deployment| Self-hosted| 
+| Layer | Stack |
+| :--- | :--- |
+| **iOS App** | SwiftUI |
+| **Backend** | FastAPI (Python) |
+| **Database** | SQLite |
+| **LLM Runtime** | Ollama |
+| **Model** | Qwen3 0.6B (Instruct) |
+| **Hardware** | Raspberry Pi 4 + NVIDIA GTX 1060 (Host) |
 
 ---
 
-## Privacy & Security 
+## Model & Runtime
 
-- Fully self-hosted
-- No cloud dependency
-- LLM has NO **DB** access
-- User can disable or remove assistant
+* **Model:** Qwen3 0.6B (Instruct)
+* **Runtime:** Ollama
+* **Fine-tuning:** LoRA / QLoRA
+* **Inference:** Local GPU (NVIDIA GTX 1060)
 
 ---
 
-## License 
+## Privacy & Security
 
-This project is licensed under the **MIT license**.
+* **Fully Self-Hosted:** No cloud dependency.
+* **Zero DB Access:** The LLM cannot query the database; it only reads pre-processed JSON contexts.
+* **User Control:** You can disable or remove the assistant module at any time.
 
-MIT License 
+---
 
-Copyright(c) 2026 Shuo Mao 
+## License
 
-Permission is hereby granted, free to change, to any person obtaining a copy.
+This project is licensed under the **MIT License**.
+
+Copyright (c) 2026 Shuo Mao
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
