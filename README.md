@@ -84,7 +84,7 @@ This assistant is **NOT A CHATBOT**. It is a **SYSTEM CAPABILITY** that helps yo
 
 ## Entity Relationship Diagram (ERD)
 
-```
+```mermaid
 erDiagram
 
     %% =========================
