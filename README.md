@@ -84,129 +84,56 @@ This assistant is **NOT A CHATBOT**. It is a **SYSTEM CAPABILITY** that helps yo
 
 ## Entity Relationship Diagram (ERD)
 
+
 ```mermaid
 erDiagram
-
-    %% =========================
-    %% Data Sources / Devices
-    %% =========================
+    %% Source & Devices
     SOURCE {
         int id PK
-        string name "iPhone 13, Xiaomi Scale"
-        string platform "iOS, Android, BLE"
-        string manufacturer
-        string model
-        datetime created_at
+        string name "e.g. iPhone 13, Xiaomi Scale"
+        string platform "iOS, Android"
     }
 
-    %% =========================
     %% Measurement Types
-    %% =========================
     MEASUREMENT_TYPE {
         int id PK
-        string name "weight, steps, sleep, hr"
-        string unit "kg, count, hours, bpm"
-        string category "body, activity, sleep"
+        string name "weight, steps, sleep"
+        string unit "kg, count, hours"
     }
 
-    %% =========================
-    %% Raw Measurements (Atomic)
-    %% =========================
+    %% Core Data
     MEASUREMENT {
         int id PK
         float value
         datetime timestamp
         int source_id FK
         int type_id FK
-        string granularity "instant, interval"
-        datetime created_at
     }
 
-    %% =========================
-    %% Daily Aggregates (System Computed)
-    %% =========================
+    %% Daily Aggregation
     DAILY_CHECKIN {
         int id PK
-        date date "UNIQUE"
+        date date "Unique Index"
         float weight_snapshot
-        float sleep_total_hours
+        float sleep_total
         int steps_total
-        float training_load
         string mood
         text diet_note
-        datetime created_at
     }
 
-    %% =========================
-    %% Mapping: Raw → Daily
-    %% =========================
-    DAILY_MEASUREMENT_MAP {
-        int id PK
-        int daily_checkin_id FK
-        int measurement_id FK
-    }
-
-    %% =========================
-    %% Computed Metrics (Evidence)
-    %% =========================
-    METRIC {
-        int id PK
-        string name "7d_avg_steps, sleep_debt"
-        string value_type "float, int, json"
-        string unit
-        string window "7d, 14d, 30d"
-    }
-
-    METRIC_VALUE {
-        int id PK
-        int metric_id FK
-        date date
-        text value_json
-        datetime computed_at
-    }
-
-    %% =========================
-    %% LLM Insight Outputs
-    %% =========================
-    INSIGHT {
-        int id PK
-        date date
-        string scope "daily, weekly, monthly"
-        text explanation
-        text evidence_json
-        string model_version
-        datetime generated_at
-    }
-
-    %% =========================
-    %% Sync & Audit
-    %% =========================
+    %% Sync Logs
     SYNC_LOG {
         int id PK
-        int source_id FK
         datetime timestamp
-        string status "SUCCESS, FAILED"
+        string status "SUCCESS / FAILED"
         text error_message
     }
 
-    %% =========================
-    %% Relationships
-    %% =========================
-    SOURCE ||--o{ MEASUREMENT : produces
-    MEASUREMENT_TYPE ||--o{ MEASUREMENT : classifies
-
+    SOURCE ||--o{ MEASUREMENT : generates
+    MEASUREMENT_TYPE ||--o{ MEASUREMENT : categorizes
     SOURCE ||--o{ SYNC_LOG : initiates
-
-    DAILY_CHECKIN ||--o{ DAILY_MEASUREMENT_MAP : aggregates
-    MEASUREMENT ||--o{ DAILY_MEASUREMENT_MAP : contributes
-
-    METRIC ||--o{ METRIC_VALUE : defines
-    DAILY_CHECKIN ||--o{ METRIC_VALUE : summarized_by
-
-    DAILY_CHECKIN ||--o{ INSIGHT : explained_by
-
-
-```
+    DAILY_CHECKIN ||--o{ MEASUREMENT : aggregates
+   ```
 
 
 ---

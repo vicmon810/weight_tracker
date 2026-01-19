@@ -1,0 +1,5 @@
+
+
+sudo systemctl start healthpi_api.service 
+sudo systemctl start healthpi_web.service 
+sudo systemctl status healthpi_api

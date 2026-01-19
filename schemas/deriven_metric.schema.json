@@ -1,0 +1,15 @@
+{
+    "derived_metric":{
+        "metric_id":"UUID"
+       ,"metric_name": "UUID"
+       ,"computed_at": "ISO8601"
+       ,"value": "string/number"
+       ,"logic_version": "v1.2.9"
+       ,"uncertainty":{
+        "confidence_score": 0.98,
+        "missing_data_ratio": 0.05,
+        "is_imputed": true
+       }
+        
+    }
+}

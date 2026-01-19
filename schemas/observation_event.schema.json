@@ -1,0 +1,29 @@
+{
+   " Observation_event":{
+        "event_id":"UUID"
+        ,"source":{
+            "device": "UUID",
+            "app_version": "string"
+        } 
+        ,"observed_at": "ISO8601"
+        ,"temporal_scpoe": "number(seconds)"
+        ,"provenance": "digital_signature"
+        ,"data":[
+            {
+            "kind": "body_mass",
+            "value": 99,
+            "unit": "kg"
+            },
+            {
+            "kind": "steps",
+            "value": 2323,
+            "unit": "count"
+            },
+            {"kind": "sleep",
+            "value": 99,
+            "unit": "min"
+            }
+        ]
+    
+    }
+}

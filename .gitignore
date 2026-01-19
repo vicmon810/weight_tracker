@@ -9,12 +9,11 @@ venv/
 ENV/
 
 # Database
-*.db
-health.db
+store/*
 
-# Logs
-*.log
-nohup.out
+# logs
+
+logs/*
 
 # OS files
 .DS_Store

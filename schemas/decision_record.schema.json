@@ -1,0 +1,18 @@
+{
+    "decision_record":{
+          "decision_id": "UUID"
+          ,"source_metric_id":"UUID"
+          ,"computed_at": "ISO8601"
+          ,"reversible": "boolean"
+          ,"explain": "string"
+          ,"output":
+          {
+            "action": "string",
+            "pamars":{
+                "msg": "...",
+                "notify": true
+            }
+          }
+          
+    }
+}
