@@ -17,3 +17,12 @@ logs/*
 
 # OS files
 .DS_Store
+
+
+
+sync/*.sql
+
+store/*.sh
+
+
+api/toy_data.py

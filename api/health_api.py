@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional
 import os
 import uuid
+from .toy_data import router as test_router
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ def get_conn() -> sqlite3.Connection:
     conn.execute("PRAGMA foreign_keys = ON;")    
     return conn
 
+app.include_router(test_router)
 
 
 SCHEMA_SQL = """

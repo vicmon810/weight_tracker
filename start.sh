@@ -15,7 +15,8 @@ trap cleanup EXIT
 echo "Starting FastAPI Backend on port 8999..."
 # 注意：你的 Python 文件名是 health_api.py 吗？如果是 main.py 请改成 main:app
 # nohup uvicorn health_api:app --host 0.0.0.0 --port 8999 --reload > logs/back.log 2>&1 &
-nohup uvicorn api.health_api:app --host 0.0.0.0 --port 8999 --reload > logs/back.log 2>&1 &
+# nohup uvicorn api.health_api:app --host 0.0.0.0 --port 8999 --reload > logs/back.log 2>&1 &
+nohup python -m uvicorn api.health_api:app --host 0.0.0.0 --port 8999 --reload > logs/back.log 2>&1 &
 # 等几秒钟让后端先启动
 sleep 2
 

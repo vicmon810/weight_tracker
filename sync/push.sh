@@ -1,8 +1,26 @@
-#!/bin/bash
-set -e 
+#!/bin/bash 
 
-DB = ../store/health.db
-SNAP = ../store/health_snap.db
+set -euo pipefail 
 
-sqlite3 "$DB"".backup '$SNAP'"
-rsync -av "$SNAP" @user@remote:/store/health.db
+if [ -f "../.env" ];then
+    source "../.env"
+else 
+    echo "Error ../.env"
+    exit 1
+fi 
+
+LOCAL_DB="../store/health.db" 
+OUTGOING_DB="../store/outgoing.db" 
+
+: "${HEALTH_REMOTE_INCOMING_FILE:?Missing HEALTH_REMOTE_IMCOMING_FILE}"
+
+
+
+echo "Creating outgoing db"
+rm -f "$OUTGOING_DB"
+sqlite3 "$LOCAL_DB" ".backup '$OUTGOING_DB'"
+
+echo "Pushing outgoing db"
+./sync.sh push "$OUTGOINNG_DB" "$HEALTH_REMOTE_INCOMING_FILE"
+
+echo "push completed"
