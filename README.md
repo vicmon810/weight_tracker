@@ -1,147 +1,96 @@
-# HealthPI Embedded Personal Assistant
+# HealthPi minimum MVP
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Docs: 中文](https://img.shields.io/badge/Docs-中文-red.svg)](./README.zh-CN.md)
-![Type](https://img.shields.io/badge/Type-Embedded%20Assistant-informational)
-![Runtime](https://img.shields.io/badge/Runtime-Ollama-orange)
-![Model](https://img.shields.io/badge/Model-Qwen3%200.6b-purple)
-![Backend](https://img.shields.io/badge/Backend-FastAPI-teal)
-![DB](https://img.shields.io/badge/DB-SQLite-blue)
-![GPU](https://img.shields.io/badge/GPU-NVIDIA%20GTX%201060-76B900)
+HealthPi currently proves one complete path:
 
----
+```text
+Apple Health (weight, steps, sleep)
+        ↓
+iPhone app (one Sync Today button)
+        ↓ private LAN
+FastAPI on Raspberry Pi
+        ↓
+SQLite daily_health table
+```
 
-## Overview
+The same calendar date is idempotent: syncing again updates the existing row instead of creating a duplicate. Missing fields do not erase values already stored for that day.
 
-**HealthPI** is a privacy-first, self-hosted **personal health tracking system** with a **deeply embedded AI assistant**.
+## 1. Run the Raspberry Pi API
 
-This assistant is **NOT A CHATBOT**. It is a **SYSTEM CAPABILITY** that helps you understand *your own data*.
+Requirements: Python 3.11 or newer and an iPhone/Pi on the same trusted private network.
 
----
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+./start.sh
+```
 
-## Core Principles
+The API listens on `0.0.0.0:8999` and creates `health.db` in the repository directory.
 
-### 1. Assistant is a Capability, Not a Page
-* No dedicated "Assistant Page".
-* The assistant lives inside:
-    * Charts
-    * Metrics
-    * Insight Cards
-    * Widgets / Siri
+Check it from another machine on the LAN:
 
-### 2. System Computes, LLM Explains
-* All metrics are computed deterministically by the system (Python/Pandas).
-* The LLM **never** touches the raw database directly.
-* The LLM consumes only **structured evidence** provided by the backend.
+```bash
+curl http://PI_IP_ADDRESS:8999/health
+```
 
-### 3. Explicit Safety Boundaries
-* **No Medical Diagnosis.**
-* No prescriptions.
-* No autonomous device control.
+Expected response:
 
----
+```json
+{"status":"ok"}
+```
 
-## Key Features
+## 2. Configure and run the iPhone app
 
-* **Metric Explanations:** Contextual insights for sleep, steps, weight, and training load.
-* **Trend Analysis:** Automated analysis of 7-day, 14-day, and 30-day trends.
-* **Automated Reporting:** Weekly and Monthly summaries generated automatically.
-* **Privacy First:** Fully local execution; no data leaves your network.
+1. Open `HealthPi/HealthPi.xcodeproj` in Xcode.
+2. In `HealthPi/HealthPi/Info.plist`, replace the `HealthAPIBaseURL` value with the Pi's LAN address, for example `http://192.168.1.20:8999`.
+3. Select your Apple development team and a physical iPhone. HealthKit data is not available in a useful form on a generic build destination.
+4. Build and run, tap **Sync Today**, and allow access to weight, steps, and sleep when iOS asks.
 
----
+HealthKit does not reveal whether read permission was denied; denied data appears the same as no data. The app reports an error if all three values are unavailable.
 
-## Technology Stack
+## 3. Verify the stored record
 
-| Layer | Stack |
-| :--- | :--- |
-| **iOS App** | SwiftUI |
-| **Backend** | FastAPI (Python) |
-| **Database** | SQLite |
-| **LLM Runtime** | Ollama |
-| **Model** | Qwen3 0.6B (Instruct) |
-| **Hardware** | Raspberry Pi 4 + NVIDIA GTX 1060 (Host) |
+Replace the date below with today's date in the `Pacific/Auckland` timezone:
 
----
+```bash
+curl http://PI_IP_ADDRESS:8999/daily-health/2026-08-24
+```
 
-## Model & Runtime
+Example response:
 
-* **Model:** Qwen3 0.6B (Instruct)
-* **Runtime:** Ollama
-* **Fine-tuning:** LoRA / QLoRA
-* **Inference:** Local GPU (NVIDIA GTX 1060)
+```json
+{
+  "date": "2026-08-24",
+  "weight_kg": 72.4,
+  "steps": 8321,
+  "sleep_hours": 7.5,
+  "created_at": "2026-08-24T08:00:00+00:00",
+  "updated_at": "2026-08-24T08:00:00+00:00"
+}
+```
 
----
+Tap **Sync Again** and verify the endpoint still returns one record for the date.
 
-## Privacy & Security
+## Tests
 
-* **Fully Self-Hosted:** No cloud dependency.
-* **Zero DB Access:** The LLM cannot query the database; it only reads pre-processed JSON contexts.
-* **User Control:** You can disable or remove the assistant module at any time.
+Backend:
 
----
+```bash
+.venv/bin/python -m pytest -q
+```
 
+iOS tests compile as part of:
 
+```bash
+xcodebuild \
+  -project HealthPi/HealthPi.xcodeproj \
+  -scheme HealthPi \
+  -destination 'generic/platform=iOS Simulator' \
+  build-for-testing \
+  CODE_SIGNING_ALLOWED=NO
+```
 
-## Entity Relationship Diagram (ERD)
+Run the `HealthPiTests` target in Xcode with an installed iOS Simulator. The tests cover sync sequencing and retry, Auckland date encoding, and overlapping sleep interval merging.
 
+## Deliberately outside this MVP
 
-```mermaid
-erDiagram
-    %% Source & Devices
-    SOURCE {
-        int id PK
-        string name "e.g. iPhone 13, Xiaomi Scale"
-        string platform "iOS, Android"
-    }
-
-    %% Measurement Types
-    MEASUREMENT_TYPE {
-        int id PK
-        string name "weight, steps, sleep"
-        string unit "kg, count, hours"
-    }
-
-    %% Core Data
-    MEASUREMENT {
-        int id PK
-        float value
-        datetime timestamp
-        int source_id FK
-        int type_id FK
-    }
-
-    %% Daily Aggregation
-    DAILY_CHECKIN {
-        int id PK
-        date date "Unique Index"
-        float weight_snapshot
-        float sleep_total
-        int steps_total
-        string mood
-        text diet_note
-    }
-
-    %% Sync Logs
-    SYNC_LOG {
-        int id PK
-        datetime timestamp
-        string status "SUCCESS / FAILED"
-        text error_message
-    }
-
-    SOURCE ||--o{ MEASUREMENT : generates
-    MEASUREMENT_TYPE ||--o{ MEASUREMENT : categorizes
-    SOURCE ||--o{ SYNC_LOG : initiates
-    DAILY_CHECKIN ||--o{ MEASUREMENT : aggregates
-   ```
-
-
----
-
-## License
-
-This project is licensed under the **MIT License**.
-
-Copyright (c) 2026 Shuo Mao
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
+Authentication, remote internet access, dashboards, trend analysis, AI/LLM features, background sync, and multi-user support are future milestones. The HTTP API assumes a trusted private LAN and must not be exposed directly to the public internet.
