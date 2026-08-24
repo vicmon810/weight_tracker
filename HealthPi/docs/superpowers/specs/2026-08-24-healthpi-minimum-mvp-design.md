@@ -19,7 +19,7 @@ The MVP is complete when:
 3. The Raspberry Pi API validates and stores the snapshot in SQLite.
 4. Repeating a sync for the same local calendar date updates the existing row rather than creating a duplicate.
 5. Missing HealthKit values are stored as `null` without blocking the other values.
-6. The app distinguishes loading, success, authorization failure, missing data, connection failure, and server failure.
+6. The app distinguishes loading, success, authorization-request failure, unavailable-or-not-shared data, query failure, connection failure, and server failure. HealthKit intentionally does not reveal whether read access was denied.
 7. Automated backend tests cover validation, persistence, and idempotent updates.
 8. A second developer can start and verify the system using the README.
 
@@ -50,7 +50,7 @@ These features may be revisited only after the MVP acceptance criteria pass.
 5. The screen shows the retrieved values.
 6. The app sends one daily snapshot to the configured Raspberry Pi endpoint.
 7. The API inserts or updates the row identified by the snapshot date.
-8. The app shows either a successful sync time or a specific error.
+8. The app shows either a successful sync time or a specific error. A metric with no readable sample is presented as unavailable, without claiming whether the user denied access or no sample exists.
 
 The MVP remains manually triggered. No app-launch or background sync is performed.
 
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS daily_health (
 
 `date` is the idempotency key. The API uses one `INSERT ... ON CONFLICT(date) DO UPDATE` statement. `created_at` remains unchanged on updates; `updated_at` changes on every accepted sync.
 
-The MVP uses the iPhone's local calendar date in `Pacific/Auckland`, formatted before transmission. This intentionally defines a daily snapshot from the user's perspective rather than from UTC. Supporting travel and multiple user time zones is deferred.
+The MVP uses a Gregorian calendar fixed to the `Pacific/Auckland` time zone, formatted before transmission. This gives the SQLite idempotency key one stable home-time-zone meaning even when the phone travels. Supporting multiple user time zones is deferred.
 
 ## Health Data Semantics
 
@@ -178,6 +178,8 @@ The action is disabled while authorization, loading, or synchronization is activ
 
 The Raspberry Pi base URL is supplied from app configuration and is not embedded in `HealthViewModel`. Development may use a checked-in example value, while the real LAN address remains locally configurable.
 
+This MVP is explicitly limited to a trusted private LAN. Plain HTTP and an unauthenticated endpoint are acceptable only within that boundary; TLS and authentication are required before exposing the service to an untrusted network.
+
 The API and all supporting scripts use port `8999`. The iOS app requires the minimum local-network and App Transport Security configuration necessary for HTTP access to the LAN service. Broad network-security exceptions are not added without necessity.
 
 ## Error Handling
@@ -185,7 +187,8 @@ The API and all supporting scripts use port `8999`. The iOS app requires the min
 User-facing failures are grouped into:
 
 - HealthKit unavailable
-- HealthKit permission not granted
+- HealthKit authorization request failed
+- HealthKit data unavailable or not shared (the API cannot distinguish these cases for read access)
 - HealthKit query failure
 - Invalid API configuration
 - Raspberry Pi unreachable or timed out
