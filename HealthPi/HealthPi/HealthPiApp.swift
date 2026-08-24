@@ -1,32 +1,20 @@
-//
-//  HealthPiApp.swift
-//  HealthPi
-//
-//  Created by Kris Mao on 31/12/25.
-//
-
 import SwiftUI
-import SwiftData
 
 @main
 struct HealthPiApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+    private let apiBaseURL: URL = {
+        guard
+            let value = Bundle.main.object(forInfoDictionaryKey: "HealthAPIBaseURL") as? String,
+            let url = URL(string: value)
+        else {
+            preconditionFailure("HealthAPIBaseURL is missing or invalid")
         }
+        return url
     }()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: HealthViewModel(baseURL: apiBaseURL))
         }
-        .modelContainer(sharedModelContainer)
     }
 }
