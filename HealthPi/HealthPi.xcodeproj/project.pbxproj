@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		E067D00F2F04FFA50091B6D5 /* HealthPiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D00E2F04FFA50091B6D5 /* HealthPiApp.swift */; };
 		E067D0112F04FFA50091B6D5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D0102F04FFA50091B6D5 /* ContentView.swift */; };
-		E067D0132F04FFA50091B6D5 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D0122F04FFA50091B6D5 /* Item.swift */; };
 		E067D0152F04FFA80091B6D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E067D0142F04FFA80091B6D5 /* Assets.xcassets */; };
 		E067D0182F04FFA80091B6D5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E067D0172F04FFA80091B6D5 /* Preview Assets.xcassets */; };
 		E067D0222F04FFA80091B6D5 /* HealthPiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D0212F04FFA80091B6D5 /* HealthPiTests.swift */; };
+		A10000012F04FFA80091B6D5 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000022F04FFA80091B6D5 /* HealthManager.swift */; };
+		A10000032F04FFA80091B6D5 /* HealthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000042F04FFA80091B6D5 /* HealthViewModel.swift */; };
 		E067D02C2F04FFA80091B6D5 /* HealthPiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D02B2F04FFA80091B6D5 /* HealthPiUITests.swift */; };
 		E067D02E2F04FFA80091B6D5 /* HealthPiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E067D02D2F04FFA80091B6D5 /* HealthPiUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
@@ -38,11 +39,12 @@
 		E067D00B2F04FFA50091B6D5 /* HealthPi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthPi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E067D00E2F04FFA50091B6D5 /* HealthPiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthPiApp.swift; sourceTree = "<group>"; };
 		E067D0102F04FFA50091B6D5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		E067D0122F04FFA50091B6D5 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E067D0142F04FFA80091B6D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E067D0172F04FFA80091B6D5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E067D01D2F04FFA80091B6D5 /* HealthPiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthPiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E067D0212F04FFA80091B6D5 /* HealthPiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthPiTests.swift; sourceTree = "<group>"; };
+		A10000022F04FFA80091B6D5 /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		A10000042F04FFA80091B6D5 /* HealthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewModel.swift; sourceTree = "<group>"; };
 		E067D0272F04FFA80091B6D5 /* HealthPiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthPiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E067D02B2F04FFA80091B6D5 /* HealthPiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthPiUITests.swift; sourceTree = "<group>"; };
 		E067D02D2F04FFA80091B6D5 /* HealthPiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthPiUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -98,7 +100,8 @@
 			children = (
 				E067D00E2F04FFA50091B6D5 /* HealthPiApp.swift */,
 				E067D0102F04FFA50091B6D5 /* ContentView.swift */,
-				E067D0122F04FFA50091B6D5 /* Item.swift */,
+				A10000022F04FFA80091B6D5 /* HealthManager.swift */,
+				A10000042F04FFA80091B6D5 /* HealthViewModel.swift */,
 				E067D0142F04FFA80091B6D5 /* Assets.xcassets */,
 				E067D0162F04FFA80091B6D5 /* Preview Content */,
 			);
@@ -261,7 +264,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E067D0112F04FFA50091B6D5 /* ContentView.swift in Sources */,
-				E067D0132F04FFA50091B6D5 /* Item.swift in Sources */,
+				A10000012F04FFA80091B6D5 /* HealthManager.swift in Sources */,
+				A10000032F04FFA80091B6D5 /* HealthViewModel.swift in Sources */,
 				E067D00F2F04FFA50091B6D5 /* HealthPiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,11 +428,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = HealthPi/HealthPi.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HealthPi/Preview Content\"";
 				DEVELOPMENT_TEAM = P4X42B3D7G;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HealthPi/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -453,11 +459,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = HealthPi/HealthPi.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HealthPi/Preview Content\"";
 				DEVELOPMENT_TEAM = P4X42B3D7G;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HealthPi/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

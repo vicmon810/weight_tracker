@@ -1,145 +1,155 @@
-//
-//  HealthView.swift
-//  HealthPi
-//
-//  Created by Kris Mao on 2/01/26.
-//
-
 import Foundation
-import SwiftUI
+
+struct HealthSummary: Equatable {
+    let date: Date
+    let weightKilograms: Double?
+    let steps: Int?
+    let sleepHours: Double?
+
+    var hasData: Bool {
+        weightKilograms != nil || steps != nil || sleepHours != nil
+    }
+}
 
 @MainActor
-final class HealthView: ObservableObject{
-    private let healthManager = HealthManager()
-    
-    private let apiBaseURL = "http://192.168.88.6:8000"
-    
-    @Published var statusMessage: String = ""
-    @Published var bodyMess : Double?
-    @Published var stepCount: Double?
-    @Published var sleepHours: Double?
-    
-    func requestPremission()  {
-        statusMessage = "Requesting HealthKid authorization..."
-        
-        healthManager.requestAuthorization { [weak self] success
-            in
-            Task {
-                self?.statusMessage = success ? "HealthKit Authorized" : "Authorization failed"
-            }
+protocol HealthDataProviding {
+    func requestAuthorization() async throws
+    func loadTodaySummary() async throws -> HealthSummary
+}
+
+@MainActor
+protocol DailyHealthPosting {
+    func post(_ summary: HealthSummary) async throws
+}
+
+enum HealthSyncState: Equatable {
+    case idle
+    case authorizing
+    case loading
+    case syncing
+    case success
+    case failure(String)
+
+    var isBusy: Bool {
+        self == .authorizing || self == .loading || self == .syncing
+    }
+}
+
+enum HealthSyncError: LocalizedError {
+    case noHealthData
+    case invalidServerResponse
+    case serverRejected(Int)
+
+    var errorDescription: String? {
+        switch self {
+        case .noHealthData:
+            return "No Health data was available for this day."
+        case .invalidServerResponse:
+            return "The Raspberry Pi returned an invalid response."
+        case .serverRejected(let statusCode):
+            return "The Raspberry Pi rejected the sync (HTTP \(statusCode))."
         }
     }
-    
-    
-    func loadTodaySummary(){
-        statusMessage = "Loading data ...."
-        
-        Task {
-            async let w = fetchWeight()
-            async let s = fetchSteps()
-            async let h = fetchSleep()
-            
-            let (weight, steps, sleep) = await (w,s,h)
-            
-            bodyMess = weight
-            stepCount = steps
-            sleepHours = sleep
-            
-            statusMessage = "Loaded from Health"
+}
+
+@MainActor
+final class HealthAPIClient: DailyHealthPosting {
+    private struct Payload: Encodable {
+        let date: String
+        let weightKg: Double?
+        let steps: Int?
+        let sleepHours: Double?
+
+        enum CodingKeys: String, CodingKey {
+            case date
+            case weightKg = "weight_kg"
+            case steps
+            case sleepHours = "sleep_hours"
         }
     }
-    
-    private func fetchWeight() async -> Double? {
-         await withCheckedContinuation { continuation in
-             healthManager.fetchLatestBodyMass { value in
-                 continuation.resume(returning: value)
-             }
-         }
-     }
-    
-    private func fetchSteps() async -> Double?{
-        await withCheckedContinuation{
-            continuation in healthManager.fetchTodayStepCount
-            {value in continuation.resume(returning: value)}
-        }
+
+    private let baseURL: URL
+    private let session: URLSession
+
+    init(baseURL: URL, session: URLSession = .shared) {
+        self.baseURL = baseURL
+        self.session = session
     }
-    
-    private func fetchSleep() async -> Double?{
-        await withCheckedContinuation{
-            continuation in healthManager.fetchLastNightSleepHours{
-                value in continuation.resume(returning: value)
-            }
-        }
-    }
-    
-    func syncToPi(){
-        guard
-            let url = URL(string: apiBaseURL+"/checkin")
-        else{
-            statusMessage = "Invalid API URL"
-            return
-        }
-        
-        let exerciseMinutes: Int? = {
-            if let steps = stepCount{
-                return Int(steps/100.0)
-            }
-            return nil
-        }()
-        
-        let payload = CheckPayLoad(
-            mood:"Synced From Iphone",
-            diet_note: "",
-            execrise_minutes: exerciseMinutes,
-            execrise_note: "Step from Apple health",
-            sleep_hours: sleepHours,
-            Weight: bodyMess
-        )
-        guard
-            let body = try? JSONEncoder().encode(payload)
-        else{
-            statusMessage = "Failed to encode payload"
-            return
-        }
-        
-        
-        var request = URLRequest(url: url)
+
+    func post(_ summary: HealthSummary) async throws {
+        var request = URLRequest(url: baseURL.appendingPathComponent("daily-health"))
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body
-        
-        statusMessage = "Syncing to Pi"
-        
-        
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-                    Task { @MainActor in
-                        if let error = error {
-                            self?.statusMessage = "Sync failed: \(error.localizedDescription)"
-                            return
-                        }
+        request.httpBody = try Self.payloadData(for: summary)
 
-                        if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
-                            self?.statusMessage = "Sync failed: HTTP \(http.statusCode)"
-                            return
-                        }
-
-                        self?.statusMessage = "Synced successfully to Raspberry Pi."
-                    }
-                }
-
-                task.resume()
-        
+        let (_, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw HealthSyncError.invalidServerResponse
         }
-        
-    }
-    
-    struct CheckPayLoad: Codable{
-        let mood:String
-        let diet_note:String
-        let execrise_minutes:Int?
-        let execrise_note: String?
-        let sleep_hours: Double?
-        let Weight: Double?
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw HealthSyncError.serverRejected(httpResponse.statusCode)
+        }
     }
 
+    static func payloadData(for summary: HealthSummary) throws -> Data {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Pacific/Auckland")!
 
+        let components = calendar.dateComponents([.year, .month, .day], from: summary.date)
+        let date = String(
+            format: "%04d-%02d-%02d",
+            components.year!,
+            components.month!,
+            components.day!
+        )
+        return try JSONEncoder().encode(
+            Payload(
+                date: date,
+                weightKg: summary.weightKilograms,
+                steps: summary.steps,
+                sleepHours: summary.sleepHours
+            )
+        )
+    }
+}
+
+@MainActor
+final class HealthViewModel: ObservableObject {
+    @Published private(set) var state: HealthSyncState = .idle
+    @Published private(set) var summary: HealthSummary?
+
+    private let healthProvider: HealthDataProviding
+    private let apiClient: DailyHealthPosting
+
+    init(healthProvider: HealthDataProviding, apiClient: DailyHealthPosting) {
+        self.healthProvider = healthProvider
+        self.apiClient = apiClient
+    }
+
+    convenience init(baseURL: URL) {
+        self.init(
+            healthProvider: HealthManager(),
+            apiClient: HealthAPIClient(baseURL: baseURL)
+        )
+    }
+
+    func syncToday() async {
+        guard !state.isBusy else { return }
+
+        do {
+            state = .authorizing
+            try await healthProvider.requestAuthorization()
+
+            state = .loading
+            let loadedSummary = try await healthProvider.loadTodaySummary()
+            guard loadedSummary.hasData else { throw HealthSyncError.noHealthData }
+            summary = loadedSummary
+
+            state = .syncing
+            try await apiClient.post(loadedSummary)
+            state = .success
+        } catch {
+            state = .failure(error.localizedDescription)
+        }
+    }
+}
